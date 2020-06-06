@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1070944621181",
+    "firebase_url": "https://maximilliam-chat.firebaseio.com",
+    "project_id": "maximilliam-chat",
+    "storage_bucket": "maximilliam-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1070944621181:android:a6d4d36de8d2180c02d714",
+        "android_client_info": {
+          "package_name": "com.example.maximilliam_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1070944621181-5j14oqtq6ekvhi7i23gjb0vorur7r131.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqXrXCZNP6UmwG6y1Y9t7a0ysZEAWvuzw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1070944621181-5j14oqtq6ekvhi7i23gjb0vorur7r131.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

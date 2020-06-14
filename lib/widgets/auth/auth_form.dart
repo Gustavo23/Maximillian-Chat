@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
-  AuthForm(this.submitFn);
+  AuthForm(
+    this.submitFn,
+    this.isLoading,
+  );
 
+  final bool isLoading;
   final void Function(
     String email,
     String password,
@@ -17,10 +21,10 @@ class AuthForm extends StatefulWidget {
 
 class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
-  bool _isLogin = true;
-  String _userEmail = '';
-  String _userName = '';
-  String _userPassword = '';
+  var _isLogin = true;
+  var _userEmail = '';
+  var _userName = '';
+  var _userPassword = '';
 
   void _trySubmit() {
     final isValid = _formKey.currentState.validate();
@@ -28,13 +32,8 @@ class _AuthFormState extends State<AuthForm> {
 
     if (isValid) {
       _formKey.currentState.save();
-      widget.submitFn(
-        _userEmail.trim(),
-        _userName,
-        _userPassword,
-        _isLogin,
-        context
-      );
+      widget.submitFn(_userEmail.trim(), _userPassword.trim(), _userName.trim(),
+          _isLogin, context);
     }
   }
 
@@ -50,17 +49,19 @@ class _AuthFormState extends State<AuthForm> {
               key: _formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children: <Widget>[
                   TextFormField(
                     key: ValueKey('email'),
                     validator: (value) {
                       if (value.isEmpty || !value.contains('@')) {
-                        return 'Please input a valid password';
+                        return 'Please enter a valid email address.';
                       }
                       return null;
                     },
                     keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(labelText: 'Email address'),
+                    decoration: InputDecoration(
+                      labelText: 'Email address',
+                    ),
                     onSaved: (value) {
                       _userEmail = value;
                     },
@@ -70,7 +71,7 @@ class _AuthFormState extends State<AuthForm> {
                       key: ValueKey('username'),
                       validator: (value) {
                         if (value.isEmpty || value.length < 4) {
-                          return 'Please input a valid password';
+                          return 'Please enter at least 4 characters';
                         }
                         return null;
                       },
@@ -83,7 +84,7 @@ class _AuthFormState extends State<AuthForm> {
                     key: ValueKey('password'),
                     validator: (value) {
                       if (value.isEmpty || value.length < 7) {
-                        return 'Please input a valid password';
+                        return 'Password must be at least 7 characters long.';
                       }
                       return null;
                     },
@@ -93,24 +94,25 @@ class _AuthFormState extends State<AuthForm> {
                       _userPassword = value;
                     },
                   ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  RaisedButton(
-                    child: Text(_isLogin ? 'Login' : 'Signup'),
-                    onPressed: () {},
-                  ),
-                  FlatButton(
-                    color: Theme.of(context).primaryColor,
-                    child: Text(_isLogin
-                        ? 'Create new account'
-                        : 'I already have an account'),
-                    onPressed: () {
-                      setState(() {
-                        _isLogin = !_isLogin;
-                      });
-                    },
-                  ),
+                  SizedBox(height: 12),
+                  if (widget.isLoading) CircularProgressIndicator(),
+                  if (!widget.isLoading)
+                    RaisedButton(
+                      child: Text(_isLogin ? 'Login' : 'Signup'),
+                      onPressed: _trySubmit,
+                    ),
+                  if (!widget.isLoading)
+                    FlatButton(
+                      textColor: Theme.of(context).primaryColor,
+                      child: Text(_isLogin
+                          ? 'Create new account'
+                          : 'I already have an account'),
+                      onPressed: () {
+                        setState(() {
+                          _isLogin = !_isLogin;
+                        });
+                      },
+                    )
                 ],
               ),
             ),
